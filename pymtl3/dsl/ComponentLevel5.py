@@ -119,8 +119,9 @@ class ComponentLevel5( ComponentLevel4 ):
         else:
           assert isinstance( member, CallerPort ), "We don't allow connecting method " \
                                                    "port to other ports of {} type".format( member.__class__ )
-      assert writer is not None, "This method net has no actual method to call.\n- {}" \
-                                  .format( '\n- '.join([ repr(x) for x in net]) )
+      # KONGTY
+      # assert writer is not None, "This method net has no actual method to call.\n- {}" \
+      #                             .format( '\n- '.join([ repr(x) for x in net]) )
       ret.append( (writer, net) )
 
     return ret
