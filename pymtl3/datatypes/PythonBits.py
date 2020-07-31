@@ -9,11 +9,24 @@ Date   : Oct 31, 2017
 """
 
 import inspect
+from .energy_plugin import *
 
-# KONGTY
-# energy table
+def _get_func_name():
+  _frame = inspect.currentframe().f_back
+  _name = inspect.getframeinfo(_frame).function
+  return _name
 
+def _get_caller():
+  _frame = inspect.currentframe().f_back
+  while 's' not in _frame.f_locals:
+    _frame = _frame.f_back
+  # Not robust
+  # class
+  # caller = _frame.f_locals["s"].__class__
+  # object
+  caller = _frame.f_locals["s"]
 
+  return caller
 
 # lower <= value <= upper
 _upper = [ 0,  1 ]
@@ -212,18 +225,23 @@ class Bits:
   # KONGTY
   def __add__( self, other ):
     nbits = self._nbits
+    _name = _get_func_name()
+    _energy = get_energy(_name, nbits)
+
+    print(f"who is caller: {_get_caller()}")
+
     try:
       if other.nbits != nbits:
         raise ValueError( f"Operands of '+' (add) operation must have matching bitwidth, "\
                           f"but here Bits{nbits} != Bits{other.nbits}.\n" )
-      return _new_valid_bits( nbits, (self._uint + other._uint) & _upper[nbits], energy=self._energy + 1 )
+      return _new_valid_bits( nbits, (self._uint + other._uint) & _upper[nbits], energy=self._energy + _energy )
     except AttributeError:
       other = int(other)
       up = _upper[ nbits ]
       if other < 0 or other > up:
         raise ValueError( f"Integer {hex(other)} is not a valid binop operand with Bits{nbits}!\n"
                           f"Suggestion: 0 <= x <= {hex(up)}" )
-      return _new_valid_bits( nbits, (self._uint + other) & up, energy=self._energy + 1 )
+      return _new_valid_bits( nbits, (self._uint + other) & up, energy=self._energy + _energy )
 
   def __radd__( self, other ):
     return self.__add__( other )
@@ -255,24 +273,24 @@ class Bits:
 
   def __mul__( self, other ):
     nbits = self._nbits
+
+    _name = _get_func_name()
+    _energy = get_energy(_name, nbits)
+
+    print(f"who is caller: {_get_caller()}")
+
     try:
       if other.nbits != nbits:
         raise ValueError( f"Operands of '*' (mul) operation must have matching bitwidth, "\
                           f"but here Bits{nbits} != Bits{other.nbits}.\n" )
-
-      stack = inspect.stack()
-      the_class = stack[1][0].f_locals["s"]
-      print(f"{the_class}")
-      print("class 2 --------------------------")
-      print(f"what is this: {inspect.currentframe().f_back.f_back}")
-      return _new_valid_bits( nbits, (self._uint * other._uint) & _upper[nbits], energy=self._energy + 4  )
+      return _new_valid_bits( nbits, (self._uint * other._uint) & _upper[nbits], energy=self._energy + _energy )
     except AttributeError:
       other = int(other)
       up = _upper[ nbits ]
       if other < 0 or other > up:
         raise ValueError( f"Integer {hex(other)} is not a valid binop operand with Bits{nbits}!\n"
                           f"Suggestion: 0 <= x <= {hex(up)}" )
-      return _new_valid_bits( nbits, (self._uint * other) & up, energy=self._energy + 4  )
+      return _new_valid_bits( nbits, (self._uint * other) & up, energy=self._energy + _energy)
 
   def __rmul__( self, other ):
     return self.__mul__( other )
