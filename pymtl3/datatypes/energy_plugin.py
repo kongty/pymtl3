@@ -1,6 +1,5 @@
 # energy table
 def get_energy(name, nbits):
-  ret = 0
   if name == "__add__":
     ret = get_add_energy(nbits)
   elif name == "__sub__":

@@ -28,18 +28,18 @@ except:
 def trunc( value, new_width ):
   if isinstance( new_width, int ):
     assert new_width <= value.nbits
-    return Bits( new_width, value.uint(), trunc_int=True, energy=value._energy )
+    return Bits( new_width, value.uint(), trunc_int=True )
   else:
     assert issubclass( new_width, Bits )
-    return new_width( value.uint(), trunc_int=True, energy=value._energy )
+    return new_width( value.uint(), trunc_int=True )
 
 def zext( value, new_width ):
   if isinstance( new_width, int ):
     assert new_width >= value.nbits
-    return Bits( new_width, value.uint(), energy=value._energy )
+    return Bits( new_width, value.uint() )
   else:
     assert issubclass( new_width, Bits )
-    return new_width( value.uint(), energy=value._energy )
+    return new_width( value.uint() )
 
 def clog2( N ):
   assert N > 0
@@ -48,10 +48,10 @@ def clog2( N ):
 def sext( value, new_width ):
   if isinstance( new_width, int ):
     assert new_width >= value.nbits
-    return Bits( new_width, value.int(), energy=value._energy)
+    return Bits( new_width, value.int())
   else:
     assert issubclass( new_width, Bits )
-    return new_width( value.int(), energy=value._energy)
+    return new_width( value.int())
 
 def reduce_and( value ):
   try:
