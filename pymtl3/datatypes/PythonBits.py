@@ -8,44 +8,7 @@ Author : Shunning Jiang
 Date   : Oct 31, 2017
 """
 
-import inspect
-from collections import defaultdict
-from .energy_plugin import *
-
-def update_energy(nbits):
-  _name = _get_func_name()
-  _energy = get_energy(_name, nbits)
-
-  if type(_get_caller().energy[_name]) == defaultdict:
-    _get_caller().energy[_name] = _energy
-  else:
-    _get_caller().energy[_name] += _energy
-
-def _get_func_name():
-  _frame = inspect.currentframe().f_back.f_back
-  _name = inspect.getframeinfo(_frame).function
-  return _name
-
-def _get_caller():
-  _frame = inspect.currentframe()
-  while 's' not in _frame.f_locals:
-    _frame = _frame.f_back
-  # while True:
-  #   if _frame == None:
-  #     return None
-  #   elif 's' not in _frame.f_locals and 'self' not in _frame.f_locals:
-  #     _frame = _frame.f_back
-  #   elif 's' in _frame.f_locals:
-  #     break
-  #   elif 'self' in _frame.f_locals:
-  #     break
-  #   else:
-  #     _frame = _frame.f_back
-
-  # caller object
-  caller = _frame.f_locals["s"]
-
-  return caller
+from ..energy.energy_plugin import *
 
 # lower <= value <= upper
 _upper = [ 0,  1 ]
@@ -241,7 +204,7 @@ class Bits:
 
   def __add__( self, other ):
     nbits = self._nbits
-    update_energy(nbits)
+    update_energy("add", nbits)
 
     try:
       if other.nbits != nbits:
@@ -261,7 +224,7 @@ class Bits:
 
   def __sub__( self, other ):
     nbits = self._nbits
-    update_energy(nbits)
+    update_energy("sub", nbits)
     try:
       if other.nbits != nbits:
         raise ValueError( f"Operands of '-' (sub) operation must have matching bitwidth, "\
@@ -287,10 +250,7 @@ class Bits:
 
   def __mul__( self, other ):
     nbits = self._nbits
-    update_energy(nbits)
-
-    _name = _get_func_name()
-    _energy = get_energy(_name, nbits)
+    update_energy("mul", nbits)
 
     try:
       if other.nbits != nbits:

@@ -11,10 +11,32 @@ Date   : Mar 10, 2018
 from collections import deque
 
 from pymtl3 import *
+import inspect
+import numpy as np
+from ...energy.energy_plugin import *
 
 #-------------------------------------------------------------------------
 # PipeQueueCL
 #-------------------------------------------------------------------------
+def _get_bits(msg):
+  # return total number of bits in message
+  # Bits, bitstruct, array of Bits, 2d array of Bits, Class with bitstruct
+  if hasattr(msg, 'nbits'):
+    return msg.nbits
+  elif type(msg) is list:
+    nbits = 0
+    msg_flattend = np.ndarray.flatten(np.array(msg))
+    for i in msg_flattend:
+      nbits += i.nbits
+    return nbits
+  elif type(msg) is np.ndarray:
+    nbits = 0
+    msg_flattend = np.ndarray.flatten(msg)
+    for i in msg_flattend:
+      nbits += i.nbits
+    return nbits
+  else:
+    return 0
 
 class PipeQueueCL( Component ):
 
@@ -28,6 +50,7 @@ class PipeQueueCL( Component ):
 
   @non_blocking( lambda s: len( s.queue ) < s.queue.maxlen )
   def enq( s, msg ):
+    update_energy("pipeline", _get_bits(msg))
     s.queue.appendleft( msg )
 
   @non_blocking( lambda s: len( s.queue ) > 0 )
