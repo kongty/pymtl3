@@ -1,4 +1,5 @@
 import inspect
+from scipy.interpolate import interp1d
 from collections import defaultdict
 
 # helper functions
@@ -55,21 +56,36 @@ def get_group_energy(name, nbits):
 # dummy energy
 ##################################################
 def get_add_energy(nbits):
-  ret = 1 * nbits
+  bit = [0, 4, 8]
+  energy = [0, 8.04e-14, 1.53e-13]
+  f_energy = interp1d(bit, energy, fill_value='extrapolate', kind='linear')
+  ret = f_energy(nbits).tolist()
   return ret
 
 def get_sub_energy(nbits):
-  ret = 2 * nbits
+  bit = [0, 4, 8]
+  energy = [0, 8.04e-14, 1.53e-13]
+  f_energy = interp1d(bit, energy, fill_value='extrapolate', kind='linear')
+  ret = f_energy(nbits).tolist()
   return ret
 
 def get_mul_energy(nbits):
-  ret = 4 * nbits
+  bit = [0, 4, 8, 12]
+  energy = [0, 2.26e-13, 8.23e-13, 1.24e-12]
+  f_energy = interp1d(bit, energy, fill_value='extrapolate', kind='cubic')
+  ret = f_energy(nbits).tolist()
   return ret
 
 def get_pipeline_energy(nbits):
-  ret = 8 * nbits
+  bit = [0, 4, 8]
+  energy = [0, 9.47e-14, 1.33e-13]
+  f_energy = interp1d(bit, energy, fill_value='extrapolate', kind='linear')
+  ret = f_energy(nbits).tolist()
   return ret
 
 def get_register_energy(nbits):
-  ret = 7 * nbits
+  bit = [0, 4, 8]
+  energy = [0, 9.47e-14, 1.33e-13]
+  f_energy = interp1d(bit, energy, fill_value='extrapolate', kind='linear')
+  ret = f_energy(nbits).tolist()
   return ret
