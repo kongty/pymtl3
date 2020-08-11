@@ -56,36 +56,34 @@ def get_group_energy(name, nbits):
 # dummy energy
 ##################################################
 def get_add_energy(nbits):
-  bit = [0, 4, 8]
-  energy = [0, 8.04e-14, 1.53e-13]
+  bit = [0, 8, 12, 24]
+  # energy = [0, 1.38e-13, 2.06e-13, 3.04e-13]
+  energy = [0, 1.38e-13, 2.06e-13, 3.04e-13]
+  energy = [ele * 0.5 for ele in energy]
   f_energy = interp1d(bit, energy, fill_value='extrapolate', kind='linear')
   ret = f_energy(nbits).tolist()
   return ret
 
 def get_sub_energy(nbits):
-  bit = [0, 4, 8]
-  energy = [0, 8.04e-14, 1.53e-13]
-  f_energy = interp1d(bit, energy, fill_value='extrapolate', kind='linear')
-  ret = f_energy(nbits).tolist()
+  ret = get_add_energy(nbits)
   return ret
 
 def get_mul_energy(nbits):
-  bit = [0, 4, 8, 12]
-  energy = [0, 2.26e-13, 8.23e-13, 1.24e-12]
+  bit = [0, 16, 24, 32]
+  energy = [0, 1.18e-12, 2.18e-12, 3.13e-12]
+  energy = [ele * 0.5 for ele in energy]
   f_energy = interp1d(bit, energy, fill_value='extrapolate', kind='cubic')
   ret = f_energy(nbits).tolist()
   return ret
 
-def get_pipeline_energy(nbits):
-  bit = [0, 4, 8]
-  energy = [0, 9.47e-14, 1.33e-13]
+def get_register_energy(nbits):
+  bit = [0, 12, 24, 32]
+  energy = [0, 1.55e-13, 2.30e-13, 2.70e-13]
   f_energy = interp1d(bit, energy, fill_value='extrapolate', kind='linear')
   ret = f_energy(nbits).tolist()
   return ret
 
-def get_register_energy(nbits):
-  bit = [0, 4, 8]
-  energy = [0, 9.47e-14, 1.33e-13]
-  f_energy = interp1d(bit, energy, fill_value='extrapolate', kind='linear')
-  ret = f_energy(nbits).tolist()
+def get_pipeline_energy(nbits):
+  ret = get_register_energy(nbits)
   return ret
+

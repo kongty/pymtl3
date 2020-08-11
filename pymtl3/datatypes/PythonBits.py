@@ -204,7 +204,12 @@ class Bits:
 
   def __add__( self, other ):
     nbits = self._nbits
-    update_energy("add", nbits)
+    if type(other) is int:
+      if self._uint != 0 and other != 0:
+        update_energy("add", nbits)
+    else:
+      if self._uint != 0 and other._uint != 0:
+        update_energy("add", nbits)
 
     try:
       if other.nbits != nbits:
@@ -224,7 +229,13 @@ class Bits:
 
   def __sub__( self, other ):
     nbits = self._nbits
-    update_energy("sub", nbits)
+    if type(other) is int:
+      if self._uint != 0 and other != 0:
+        update_energy("sub", nbits)
+    else:
+      if self._uint != 0 and other._uint != 0:
+        update_energy("sub", nbits)
+
     try:
       if other.nbits != nbits:
         raise ValueError( f"Operands of '-' (sub) operation must have matching bitwidth, "\
@@ -250,7 +261,13 @@ class Bits:
 
   def __mul__( self, other ):
     nbits = self._nbits
-    update_energy("mul", nbits)
+
+    if type(other) is int:
+      if self._uint != 0 and other != 0:
+        update_energy("mul", nbits)
+    else:
+      if self._uint != 0 and other._uint != 0:
+        update_energy("mul", nbits)
 
     try:
       if other.nbits != nbits:
