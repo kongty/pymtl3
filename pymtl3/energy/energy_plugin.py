@@ -19,38 +19,74 @@ def _get_caller():
   return _frame.f_locals["s"]
 
 # update compute energy
-def update_energy(name, nbits):
-  group, _energy = get_group_energy(name, nbits)
+def update_energy(name, nbits, mem_byte_width=0):
+  _energy = get_energy(name, nbits, mem_byte_width)
   caller = _get_caller()
 
   if caller is None:
     return
-  elif type(_get_caller().energy[group][name]) == defaultdict:
-    _get_caller().energy[group][name] = _energy
   else:
-    _get_caller().energy[group][name] += _energy
+    _get_caller().energy[name] += _energy
 
 # energy table
-def get_group_energy(name, nbits):
+def get_energy(name, nbits, mem_byte_width):
   if name == "add":
     ret = get_add_energy(nbits)
-    group = 'comp'
   elif name == "sub":
     ret = get_sub_energy(nbits)
-    group = 'comp'
   elif name == "mul":
     ret = get_mul_energy(nbits)
-    group = 'comp'
   elif name == "pipeline":
     ret = get_pipeline_energy(nbits)
-    group = 'seq'
   elif name == "register":
     ret = get_register_energy(nbits)
-    group = 'seq'
+  elif name == "read":
+    ret = get_mem_read_energy(nbits, mem_byte_width)
+  elif name == "write":
+    ret = get_mem_write_energy(nbits, mem_byte_width)
   else:
     ret = 1
-    group = 'misc'
-  return group, ret
+  return ret
+
+# # update compute energy
+# def update_energy(name, nbits, mem_byte_width=0):
+#   group, _energy = get_group_energy(name, nbits, mem_byte_width)
+#   caller = _get_caller()
+#
+#   if caller is None:
+#     return
+#   elif type(_get_caller().energy[group][name]) == defaultdict:
+#     _get_caller().energy[group][name] = _energy
+#   else:
+#     _get_caller().energy[group][name] += _energy
+#
+# # energy table
+# def get_group_energy(name, nbits, mem_byte_width):
+#   if name == "add":
+#     ret = get_add_energy(nbits)
+#     group = 'comp'
+#   elif name == "sub":
+#     ret = get_sub_energy(nbits)
+#     group = 'comp'
+#   elif name == "mul":
+#     ret = get_mul_energy(nbits)
+#     group = 'comp'
+#   elif name == "pipeline":
+#     ret = get_pipeline_energy(nbits)
+#     group = 'seq'
+#   elif name == "register":
+#     ret = get_register_energy(nbits)
+#     group = 'seq'
+#   elif name == "read":
+#     ret = get_mem_read_energy(nbits, mem_byte_width)
+#     group = 'mem'
+#   elif name == "write":
+#     ret = get_mem_write_energy(nbits, mem_byte_width)
+#     group = 'mem'
+#   else:
+#     ret = 1
+#     group = 'misc'
+#   return group, ret
 
 ##################################################
 # dummy energy
@@ -85,5 +121,15 @@ def get_register_energy(nbits):
 
 def get_pipeline_energy(nbits):
   ret = get_register_energy(nbits)
+  return ret
+
+def get_mem_read_energy(nbits, mem_byte_width):
+  # dummy
+  ret = 0.5e-10
+  return ret
+
+def get_mem_write_energy(nbits, mem_byte_width):
+  # dummy
+  ret = 0.4e-10
   return ret
 
