@@ -204,21 +204,20 @@ class Bits:
 
   def __add__( self, other ):
     nbits = self._nbits
-    if type(other) is int:
-      if self._uint != 0 and other != 0:
-    else:
-      if self._uint != 0 and other._uint != 0:
-        update_energy("add", nbits)
-
     try:
       if other.nbits != nbits:
         raise ValueError( f"Operands of '+' (add) operation must have matching bitwidth, "\
                           f"but here Bits{nbits} != Bits{other.nbits}.\n" )
-        result = (self._uint + other._uint) & _upper[nbits]
-        if result >= 0:
-          valid_bits =
-          update_energy("add", nbits)
 
+
+      result = (self._uint + other._uint) & _upper[nbits]
+      cnt = 0
+      result_tmp = result if result >= 0 else -result
+      while result_tmp != 0:
+        result_tmp = int(result_tmp / 2)
+        cnt += 1
+      valid_bits = nbits - cnt
+      update_energy("add", valid_bits)
 
       return _new_valid_bits( nbits, result )
     except AttributeError:
@@ -227,6 +226,16 @@ class Bits:
       if other < 0 or other > up:
         raise ValueError( f"Integer {hex(other)} is not a valid binop operand with Bits{nbits}!\n"
                           f"Suggestion: 0 <= x <= {hex(up)}" )
+
+      result = (self._uint + other) & up
+      cnt = 0
+      result_tmp = result if result >= 0 else -result
+      while result_tmp != 0:
+        result_tmp = int(result_tmp / 2)
+        cnt += 1
+      valid_bits = nbits - cnt
+      update_energy("add", valid_bits)
+
       return _new_valid_bits( nbits, (self._uint + other) & up)
 
   def __radd__( self, other ):
