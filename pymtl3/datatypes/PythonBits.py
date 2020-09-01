@@ -204,50 +204,89 @@ class Bits:
 
   def __add__( self, other ):
     nbits = self._nbits
-    if type(other) is int:
-      if self._uint != 0 and other != 0:
-        update_energy("add", nbits)
-    else:
-      if self._uint != 0 and other._uint != 0:
-        update_energy("add", nbits)
-
     try:
       if other.nbits != nbits:
         raise ValueError( f"Operands of '+' (add) operation must have matching bitwidth, "\
                           f"but here Bits{nbits} != Bits{other.nbits}.\n" )
-      return _new_valid_bits( nbits, (self._uint + other._uint) & _upper[nbits])
+
+
+      result = (self._uint + other._uint) & _upper[nbits]
+
+      if self._uint != 0 and other._uint != 0:
+        valid_bits = 0
+        max_value = 2 ** (nbits-1)
+        result_tmp = result if result < max_value else max_value*2-result
+        while result_tmp != 0:
+          result_tmp = int(result_tmp / 2)
+          valid_bits += 1
+
+        update_energy("add", valid_bits)
+
+      return _new_valid_bits( nbits, result )
     except AttributeError:
       other = int(other)
       up = _upper[ nbits ]
       if other < 0 or other > up:
         raise ValueError( f"Integer {hex(other)} is not a valid binop operand with Bits{nbits}!\n"
                           f"Suggestion: 0 <= x <= {hex(up)}" )
-      return _new_valid_bits( nbits, (self._uint + other) & up)
+
+      result = (self._uint + other) & up
+
+      if self._uint != 0 and other != 0:
+
+        valid_bits = 0
+        max_value = 2 ** (nbits-1)
+        result_tmp = result if result < max_value else max_value*2-result
+        while result_tmp != 0:
+          result_tmp = int(result_tmp / 2)
+          valid_bits += 1
+
+        update_energy("add", valid_bits)
+
+      return _new_valid_bits( nbits, result)
 
   def __radd__( self, other ):
     return self.__add__( other )
 
   def __sub__( self, other ):
     nbits = self._nbits
-    if type(other) is int:
-      if self._uint != 0 and other != 0:
-        update_energy("sub", nbits)
-    else:
-      if self._uint != 0 and other._uint != 0:
-        update_energy("sub", nbits)
 
     try:
       if other.nbits != nbits:
         raise ValueError( f"Operands of '-' (sub) operation must have matching bitwidth, "\
                           f"but here Bits{nbits} != Bits{other.nbits}.\n" )
-      return _new_valid_bits( nbits, (self._uint - other._uint) & _upper[nbits] )
+
+      result = (self._uint - other._uint) & _upper[nbits]
+
+      if self._uint != 0 and other._uint != 0:
+        valid_bits = 0
+        max_value = 2 ** (nbits-1)
+        result_tmp = result if result < max_value else max_value*2-result
+        while result_tmp != 0:
+          result_tmp = int(result_tmp / 2)
+          valid_bits += 1
+        update_energy("sub", valid_bits)
+
+      return _new_valid_bits( nbits, result )
     except AttributeError:
       other = int(other)
       up = _upper[ nbits ]
       if other < 0 or other > up:
         raise ValueError( f"Integer {hex(other)} is not a valid binop operand with Bits{nbits}!\n"
                           f"Suggestion: 0 <= x <= {hex(up)}" )
-      return _new_valid_bits( nbits, (self._uint - other) & up )
+
+      result = (self._uint - other) & up
+
+      if self._uint != 0 and other != 0:
+        valid_bits = 0
+        max_value = 2 ** (nbits-1)
+        result_tmp = result if result < max_value else max_value*2-result
+        while result_tmp != 0:
+          result_tmp = int(result_tmp / 2)
+          valid_bits += 1
+        update_energy("sub", valid_bits)
+
+      return _new_valid_bits( nbits, result )
 
   def __rsub__( self, other ):
     nbits = self._nbits
@@ -262,25 +301,44 @@ class Bits:
   def __mul__( self, other ):
     nbits = self._nbits
 
-    if type(other) is int:
-      if self._uint != 0 and other != 0:
-        update_energy("mul", nbits)
-    else:
-      if self._uint != 0 and other._uint != 0:
-        update_energy("mul", nbits)
-
     try:
       if other.nbits != nbits:
         raise ValueError( f"Operands of '*' (mul) operation must have matching bitwidth, "\
                           f"but here Bits{nbits} != Bits{other.nbits}.\n" )
-      return _new_valid_bits( nbits, (self._uint * other._uint) & _upper[nbits])
+
+      result = (self._uint * other._uint) & _upper[nbits]
+
+      if self._uint != 0 and other._uint != 0:
+        valid_bits = 0
+        max_value = 2 ** (nbits-1)
+        result_tmp = result if result < max_value else max_value*2-result
+        while result_tmp != 0:
+          result_tmp = int(result_tmp / 2)
+          valid_bits += 1
+
+        update_energy("mul", valid_bits)
+
+      return _new_valid_bits( nbits, result)
     except AttributeError:
       other = int(other)
       up = _upper[ nbits ]
       if other < 0 or other > up:
         raise ValueError( f"Integer {hex(other)} is not a valid binop operand with Bits{nbits}!\n"
                           f"Suggestion: 0 <= x <= {hex(up)}" )
-      return _new_valid_bits( nbits, (self._uint * other) & up)
+
+      result = (self._uint * other) & up
+
+      if self._uint != 0 and other != 0:
+        valid_bits = 0
+        max_value = 2 ** (nbits-1)
+        result_tmp = result if result < max_value else max_value*2-result
+        while result_tmp != 0:
+          result_tmp = int(result_tmp / 2)
+          valid_bits += 1
+
+        update_energy("mul", valid_bits)
+
+      return _new_valid_bits( nbits, result)
 
   def __rmul__( self, other ):
     return self.__mul__( other )
