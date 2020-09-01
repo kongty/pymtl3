@@ -14,7 +14,7 @@ from ..energy.energy_plugin import *
 _upper = [ 0,  1 ]
 _lower = [ 0, -1 ]
 
-for i in range(2, 4096):
+for i in range(2, 8193):
   _upper.append( (_upper[i-1] << 1) + 1 )
   _lower.append(  _lower[i-1] << 1      )
 
@@ -34,7 +34,7 @@ class Bits:
 
   def __init__( self, nbits, v=0, trunc_int=False):
     nbits = int(nbits)
-    if nbits < 1 or nbits >= 4096: raise ValueError(f"Only support 1 <= nbits < 4096, not {nbits}")
+    if nbits < 1 or nbits >= 8193: raise ValueError(f"Only support 1 <= nbits < 8193, not {nbits}")
 
     self._nbits = nbits
 
