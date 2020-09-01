@@ -206,7 +206,6 @@ class Bits:
     nbits = self._nbits
     if type(other) is int:
       if self._uint != 0 and other != 0:
-        update_energy("add", nbits)
     else:
       if self._uint != 0 and other._uint != 0:
         update_energy("add", nbits)
@@ -215,7 +214,13 @@ class Bits:
       if other.nbits != nbits:
         raise ValueError( f"Operands of '+' (add) operation must have matching bitwidth, "\
                           f"but here Bits{nbits} != Bits{other.nbits}.\n" )
-      return _new_valid_bits( nbits, (self._uint + other._uint) & _upper[nbits])
+        result = (self._uint + other._uint) & _upper[nbits]
+        if result >= 0:
+          valid_bits =
+          update_energy("add", nbits)
+
+
+      return _new_valid_bits( nbits, result )
     except AttributeError:
       other = int(other)
       up = _upper[ nbits ]
