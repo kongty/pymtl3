@@ -21,7 +21,7 @@ def _get_caller():
 
 # update compute energy
 def update_energy(name, n_elem, mem_byte_width=0, data_activity=1.0):
-  _energy = get_energy(name, n_elem, mem_byte_width, data_activity=1.0)
+  _energy = get_energy(name, n_elem, mem_byte_width, data_activity=data_activity)
   caller = _get_caller()
 
   if caller is None:

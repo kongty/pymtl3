@@ -215,9 +215,9 @@ class Bits:
       if self._uint != 0 and other._uint != 0:
         data_activity=0.3
       elif self._uint != 0 or other._uint != 0:
-        data_activity=1.0
+        data_activity=0.7
       else:
-        return _new_valid_bits( nbits, result)
+        data_activity=0.2
 
       valid_bits = 0
       max_value = 2 ** (nbits-1)
@@ -241,9 +241,9 @@ class Bits:
       if self._uint != 0 and other != 0:
         data_activity=0.3
       elif self._uint != 0 or other != 0:
-        data_activity=1.0
+        data_activity=0.7
       else:
-        return _new_valid_bits( nbits, result)
+        data_activity=0.2
 
       valid_bits = 0
       max_value = 2 ** (nbits-1)
@@ -272,9 +272,9 @@ class Bits:
       if self._uint != 0 and other._uint != 0:
         data_activity=0.3
       elif self._uint != 0 or other._uint != 0:
-        data_activity=1.0
+        data_activity=0.7
       else:
-        return _new_valid_bits( nbits, result)
+        data_activity=0.2
 
       valid_bits = 0
       max_value = 2 ** (nbits-1)
@@ -297,9 +297,9 @@ class Bits:
       if self._uint != 0 and other != 0:
         data_activity=0.3
       elif self._uint != 0 or other != 0:
-        data_activity=1.0
+        data_activity=0.7
       else:
-        return _new_valid_bits( nbits, result)
+        data_activity=0.2
 
       valid_bits = 0
       max_value = 2 ** (nbits-1)
@@ -332,11 +332,11 @@ class Bits:
       result = (self._uint * other._uint) & _upper[nbits]
 
       if self._uint != 0 and other._uint != 0:
-        data_activity=0.3
+        data_activity=0.4
       elif self._uint != 0 or other._uint != 0:
-        data_activity=1.0
+        data_activity=0.7
       else:
-        return _new_valid_bits( nbits, result)
+        data_activity=0.2
 
       valid_bits = 0
       max_value = 2 ** (nbits-1)
@@ -358,11 +358,11 @@ class Bits:
       result = (self._uint * other) & up
 
       if self._uint != 0 and other != 0:
-        data_activity=0.3
+        data_activity=0.4
       elif self._uint != 0 or other != 0:
-        data_activity=1.0
+        data_activity=0.7
       else:
-        return _new_valid_bits( nbits, result)
+        data_activity=0.2
 
       valid_bits = 0
       max_value = 2 ** (nbits-1)
