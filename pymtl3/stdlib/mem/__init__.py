@@ -1,4 +1,5 @@
 from .MagicMemoryCL import MagicMemoryCL
+from .MagicMemoryEnergyCL import MagicMemoryEnergyCL
 from .MagicMemoryFL import MagicMemoryFL
 from .mem_ifcs import (
     MemMasterIfcCL,

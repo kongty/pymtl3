@@ -53,10 +53,9 @@ def get_energy(name, n_elem, mem_byte_width):
 # dummy energy
 ##################################################
 def get_add_energy(n_elem):
-  bit = [0, 8, 12, 24]
-  # energy = [0, 1.38e-13, 2.06e-13, 3.04e-13]
+  bit = [0, 9, 13, 25]
   energy = [0, 1.38e-13, 2.06e-13, 3.04e-13]
-  energy = [ele * 0.5 for ele in energy]
+  #energy = [ele * 0.5 for ele in energy]
   f_energy = interp1d(bit, energy, fill_value='extrapolate', kind='linear')
   ret = f_energy(n_elem).tolist()
   return ret
@@ -66,9 +65,9 @@ def get_sub_energy(n_elem):
   return ret
 
 def get_mul_energy(n_elem):
-  bit = [0, 16, 24, 32]
-  energy = [0, 1.18e-12, 2.18e-12, 3.13e-12]
-  energy = [ele * 0.5 for ele in energy]
+  bit = [0, 17, 25, 33]
+  energy = [0, 1.18e-12, 2.17e-12, 3.13e-12]
+  #energy = [ele * 0.5 for ele in energy]
   f_energy = interp1d(bit, energy, fill_value='extrapolate', kind='cubic')
   ret = f_energy(n_elem).tolist()
   return ret
@@ -86,11 +85,14 @@ def get_pipeline_energy(n_elem):
 
 def get_mem_read_energy(n_elem, mem_byte_width):
   num_access = math.ceil(n_elem / mem_byte_width)
-  ret = 1.34e-11 * num_access
+  print(f"read: byte{n_elem}, width:{mem_byte_width}")
+  # approximate energy to read 128bit(16byte) width memory
+  ret = 1.61e-12 * num_access * mem_byte_width/16
   return ret
 
 def get_mem_write_energy(n_elem, mem_byte_width):
   num_access = math.ceil(n_elem / mem_byte_width)
-  ret = 1.97e-11 * num_access
+  # approximate energy to write 128bit(16byte) width memory
+  ret = 1.27e-12 * num_access * mem_byte_width/16
   return ret
 

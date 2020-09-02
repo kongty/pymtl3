@@ -57,7 +57,7 @@ class MagicMemoryEnergyCL( Component ):
     return s.mem.write_mem( addr, data )
 
   # Actual stuff
-  def construct( s, nports, mem_ifc_dtypes=[mk_mem_msg(8,32,32), mk_mem_msg(8,32,32)], stall_prob=0, latency=1, mem_nbytes=2**20, mem_byte_width=64 ):
+  def construct( s, nports, mem_ifc_dtypes=[mk_mem_msg(8,32,32), mk_mem_msg(8,32,32)], stall_prob=0, latency=1, mem_nbytes=2**20, mem_byte_width=16 ):
 
     # Local constants
     s.mem_byte_width = mem_byte_width
