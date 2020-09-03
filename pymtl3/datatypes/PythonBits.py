@@ -308,7 +308,8 @@ class Bits:
 
       result = (self._uint * other._uint) & _upper[nbits]
 
-      update_energy("mul", nbits)
+      if self._uint != 0 or other._uint != 0:
+        update_energy("mul", nbits)
 
       return _new_valid_bits( nbits, result)
     except AttributeError:
