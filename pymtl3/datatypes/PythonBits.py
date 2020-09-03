@@ -220,7 +220,7 @@ class Bits:
           result_tmp = int(result_tmp / 2)
           valid_bits += 1
 
-        update_energy("add", valid_bits)
+        update_energy("add", valid_bits, data_activity=data_activity)
 
       return _new_valid_bits( nbits, result )
     except AttributeError:
@@ -241,7 +241,7 @@ class Bits:
           result_tmp = int(result_tmp / 2)
           valid_bits += 1
 
-        update_energy("add", valid_bits)
+        update_energy("add", valid_bits, data_activity=data_activity)
 
       return _new_valid_bits( nbits, result)
 
@@ -265,7 +265,7 @@ class Bits:
         while result_tmp != 0:
           result_tmp = int(result_tmp / 2)
           valid_bits += 1
-        update_energy("sub", valid_bits)
+        update_energy("sub", valid_bits, data_activity=data_activity)
 
       return _new_valid_bits( nbits, result )
     except AttributeError:
@@ -284,7 +284,7 @@ class Bits:
         while result_tmp != 0:
           result_tmp = int(result_tmp / 2)
           valid_bits += 1
-        update_energy("sub", valid_bits)
+        update_energy("sub", valid_bits, data_activity=data_activity)
 
       return _new_valid_bits( nbits, result )
 
@@ -316,7 +316,7 @@ class Bits:
           result_tmp = int(result_tmp / 2)
           valid_bits += 1
 
-        update_energy("mul", valid_bits)
+        update_energy("mul", valid_bits, data_activity=data_activity)
 
       return _new_valid_bits( nbits, result)
     except AttributeError:
@@ -336,7 +336,7 @@ class Bits:
           result_tmp = int(result_tmp / 2)
           valid_bits += 1
 
-        update_energy("mul", valid_bits)
+        update_energy("mul", valid_bits, data_activity=data_activity)
 
       return _new_valid_bits( nbits, result)
 
