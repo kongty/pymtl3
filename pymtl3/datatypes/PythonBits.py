@@ -212,21 +212,15 @@ class Bits:
 
       result = (self._uint + other._uint) & _upper[nbits]
 
-      if self._uint != 0 and other._uint != 0:
-        data_activity=0.3
-      elif self._uint != 0 or other._uint != 0:
-        data_activity=0.7
-      else:
-        data_activity=0.2
+      if self._uint != 0 or other._uint != 0:
+        valid_bits = 0
+        max_value = 2 ** (nbits-1)
+        result_tmp = result if result < max_value else max_value*2-result
+        while result_tmp != 0:
+          result_tmp = int(result_tmp / 2)
+          valid_bits += 1
 
-      valid_bits = 0
-      max_value = 2 ** (nbits-1)
-      result_tmp = result if result < max_value else max_value*2-result
-      while result_tmp != 0:
-        result_tmp = int(result_tmp / 2)
-        valid_bits += 1
-
-      update_energy("add", valid_bits, data_activity=data_activity)
+        update_energy("add", valid_bits)
 
       return _new_valid_bits( nbits, result )
     except AttributeError:
@@ -238,21 +232,16 @@ class Bits:
 
       result = (self._uint + other) & up
 
-      if self._uint != 0 and other != 0:
-        data_activity=0.3
-      elif self._uint != 0 or other != 0:
-        data_activity=0.7
-      else:
-        data_activity=0.2
+      if self._uint != 0 or other != 0:
 
-      valid_bits = 0
-      max_value = 2 ** (nbits-1)
-      result_tmp = result if result < max_value else max_value*2-result
-      while result_tmp != 0:
-        result_tmp = int(result_tmp / 2)
-        valid_bits += 1
+        valid_bits = 0
+        max_value = 2 ** (nbits-1)
+        result_tmp = result if result < max_value else max_value*2-result
+        while result_tmp != 0:
+          result_tmp = int(result_tmp / 2)
+          valid_bits += 1
 
-      update_energy("add", valid_bits, data_activity=data_activity)
+        update_energy("add", valid_bits)
 
       return _new_valid_bits( nbits, result)
 
@@ -269,20 +258,14 @@ class Bits:
 
       result = (self._uint - other._uint) & _upper[nbits]
 
-      if self._uint != 0 and other._uint != 0:
-        data_activity=0.3
-      elif self._uint != 0 or other._uint != 0:
-        data_activity=0.7
-      else:
-        data_activity=0.2
-
-      valid_bits = 0
-      max_value = 2 ** (nbits-1)
-      result_tmp = result if result < max_value else max_value*2-result
-      while result_tmp != 0:
-        result_tmp = int(result_tmp / 2)
-        valid_bits += 1
-      update_energy("sub", valid_bits, data_activity=data_activity)
+      if self._uint != 0 or other._uint != 0:
+        valid_bits = 0
+        max_value = 2 ** (nbits-1)
+        result_tmp = result if result < max_value else max_value*2-result
+        while result_tmp != 0:
+          result_tmp = int(result_tmp / 2)
+          valid_bits += 1
+        update_energy("sub", valid_bits)
 
       return _new_valid_bits( nbits, result )
     except AttributeError:
@@ -294,20 +277,14 @@ class Bits:
 
       result = (self._uint - other) & up
 
-      if self._uint != 0 and other != 0:
-        data_activity=0.3
-      elif self._uint != 0 or other != 0:
-        data_activity=0.7
-      else:
-        data_activity=0.2
-
-      valid_bits = 0
-      max_value = 2 ** (nbits-1)
-      result_tmp = result if result < max_value else max_value*2-result
-      while result_tmp != 0:
-        result_tmp = int(result_tmp / 2)
-        valid_bits += 1
-      update_energy("sub", valid_bits, data_activity=data_activity)
+      if self._uint != 0 or other != 0:
+        valid_bits = 0
+        max_value = 2 ** (nbits-1)
+        result_tmp = result if result < max_value else max_value*2-result
+        while result_tmp != 0:
+          result_tmp = int(result_tmp / 2)
+          valid_bits += 1
+        update_energy("sub", valid_bits)
 
       return _new_valid_bits( nbits, result )
 
@@ -331,21 +308,15 @@ class Bits:
 
       result = (self._uint * other._uint) & _upper[nbits]
 
-      if self._uint != 0 and other._uint != 0:
-        data_activity=0.4
-      elif self._uint != 0 or other._uint != 0:
-        data_activity=0.7
-      else:
-        data_activity=0.2
+      if self._uint != 0 or other._uint != 0:
+        valid_bits = 0
+        max_value = 2 ** (nbits-1)
+        result_tmp = result if result < max_value else max_value*2-result
+        while result_tmp != 0:
+          result_tmp = int(result_tmp / 2)
+          valid_bits += 1
 
-      valid_bits = 0
-      max_value = 2 ** (nbits-1)
-      result_tmp = result if result < max_value else max_value*2-result
-      while result_tmp != 0:
-        result_tmp = int(result_tmp / 2)
-        valid_bits += 1
-
-      update_energy("mul", valid_bits, data_activity=data_activity)
+        update_energy("mul", valid_bits)
 
       return _new_valid_bits( nbits, result)
     except AttributeError:
@@ -357,21 +328,15 @@ class Bits:
 
       result = (self._uint * other) & up
 
-      if self._uint != 0 and other != 0:
-        data_activity=0.4
-      elif self._uint != 0 or other != 0:
-        data_activity=0.7
-      else:
-        data_activity=0.2
+      if self._uint != 0 or other != 0:
+        valid_bits = 0
+        max_value = 2 ** (nbits-1)
+        result_tmp = result if result < max_value else max_value*2-result
+        while result_tmp != 0:
+          result_tmp = int(result_tmp / 2)
+          valid_bits += 1
 
-      valid_bits = 0
-      max_value = 2 ** (nbits-1)
-      result_tmp = result if result < max_value else max_value*2-result
-      while result_tmp != 0:
-        result_tmp = int(result_tmp / 2)
-        valid_bits += 1
-
-      update_energy("mul", valid_bits, data_activity=data_activity)
+        update_energy("mul", valid_bits)
 
       return _new_valid_bits( nbits, result)
 

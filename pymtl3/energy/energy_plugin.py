@@ -32,11 +32,11 @@ def update_energy(name, n_elem, mem_byte_width=0, data_activity=1.0):
 # energy table
 def get_energy(name, n_elem, mem_byte_width, data_activity):
   if name == "add":
-    ret = get_add_energy(n_elem, data_activity)
+    ret = get_add_energy(n_elem, 0.5)
   elif name == "sub":
-    ret = get_sub_energy(n_elem, data_activity)
+    ret = get_sub_energy(n_elem, 0.5)
   elif name == "mul":
-    ret = get_mul_energy(n_elem, data_activity)
+    ret = get_mul_energy(n_elem, 0.5)
   elif name == "pipeline":
     ret = get_pipeline_energy(n_elem)
   elif name == "register":
