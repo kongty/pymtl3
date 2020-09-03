@@ -309,7 +309,14 @@ class Bits:
       result = (self._uint * other._uint) & _upper[nbits]
 
       if self._uint != 0 or other._uint != 0:
-        update_energy("mul", nbits)
+        valid_bits = 0
+        max_value = 2 ** (nbits-1)
+        result_tmp = result if result < max_value else max_value*2-result
+        while result_tmp != 0:
+          result_tmp = int(result_tmp / 2)
+          valid_bits += 1
+
+        update_energy("mul", valid_bits)
 
       return _new_valid_bits( nbits, result)
     except AttributeError:
